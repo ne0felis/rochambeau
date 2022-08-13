@@ -15,59 +15,50 @@ function getComputerChoice() {
   return choice;
 }
 
-function playRound(playerSelection, computerSelection) {
-  playerSelection = playerSelection.toLowerCase();
-  computerSelection = computerSelection.toLowerCase();
+function playRound(player) {
+  const playerSelection = this.textContent.toLowerCase();
+  const computerSelection = getComputerChoice();
+
+  if (playerPoints.textContent == 5 || compPoints.textContent == 5) {
+    return;
+  }
 
   if (playerSelection === computerSelection) {
-    return "tie";
+    playerPoints.textContent++;
+    compPoints.textContent++;
+    result.textContent = "Tie";
   } else if (
     (playerSelection === "rock" && computerSelection === "scissors") ||
     (playerSelection === "paper" && computerSelection === "rock") ||
     (playerSelection === "scissors" && computerSelection === "paper")
   ) {
-    return `win`;
+    playerPoints.textContent++;
+    result.textContent = "Win";
   } else {
-    return `lose`;
+    compPoints.textContent++;
+    result.textContent = "Lose";
+  }
+
+  if (playerPoints.textContent == 5) {
+    result.textContent = "You're the winner!";
+  } else if (compPoints.textContent == 5) {
+    result.textContent = "You're the loser! Congratz!"
   }
 }
 
-// It's a lost! ${playerSelection} loses to ${computerSelection)
+const playerPoints = document.querySelector('.player-points');
+const compPoints = document.querySelector('.computer-points');
 
-function game() {
-  playerScore = 0;
-  computerScore = 0;
-  roundStatus = "";
-  playerSelection = getPlayerChoice();
-  computerSelection = getComputerChoice();
+const container = document.querySelector("#container");
+const result = document.querySelector(".result");
 
-  for (let i = 0; i < 5; i++) {
-    roundStatus = playRound(playerSelection, computerSelection);
+const rock = document.querySelector(".rock");
+const paper = document.querySelector(".paper");
+const scissors = document.querySelector(".scissors");
 
-    if (roundStatus === "win") {
-      playerScore++;
-      console.log(`It's a win! ${playerSelection} beats ${computerSelection}`);
-    }
-
-    if (roundStatus === "lose") {
-      playerScore--;
-      console.log(
-        `It's a lost! ${playerSelection} loses to ${computerSelection}`
-      );
-    }
-
-    if (roundStatus === "tie") {
-      console.log(
-        `It's a tie! ${playerSelection} ties with ${computerSelection}`
-      );
-    }
-
-    playerSelection = getPlayerChoice();
-    computerSelection = getComputerChoice();
-  }
-}
-
-game(getComputerChoice(), getComputerChoice());
+rock.addEventListener("click", playRound);
+paper.addEventListener("click", playRound);
+scissors.addEventListener("click", playRound);
 
 /*
 Problem Framework
